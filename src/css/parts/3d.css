@@ -1,0 +1,121 @@
+/* =============================================================
+   12-3d.css — depth, 3D tilt, layered parallax, floating
+   elements, and directional / mask reveal variants.
+   All effects are transform/opacity only and are disabled
+   under prefers-reduced-motion.
+   ============================================================= */
+
+/* Perspective scene helpers ---------------------------------- */
+.scene-3d {
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
+  transform-style: preserve-3d;
+}
+[data-depth] {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
+/* 3D tilt cards ---------------------------------------------- */
+[data-tilt] {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+[data-tilt] .tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 55%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  mix-blend-mode: screen;
+}
+[data-tilt].is-tilting .tilt-glare { opacity: 1; }
+/* Children can pop forward in Z for a real parallax feel */
+[data-tilt] [data-tilt-layer] {
+  transform: translateZ(var(--tz, 0));
+  transition: transform 0.18s ease;
+}
+
+/* Floating 3D decorative elements --------------------------- */
+.float-3d {
+  transform-style: preserve-3d;
+  animation: floatY 9s ease-in-out infinite;
+}
+.float-3d.slow { animation-duration: 13s; }
+.float-3d.rev { animation-direction: reverse; }
+@keyframes floatY {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateX(8deg) rotateY(-10deg); }
+  50% { transform: translate3d(0, -18px, 30px) rotateX(-6deg) rotateY(10deg); }
+}
+.spin-3d {
+  transform-style: preserve-3d;
+  animation: spin3d 26s linear infinite;
+}
+@keyframes spin3d {
+  to { transform: rotateY(360deg) rotateX(12deg); }
+}
+
+/* Directional / mask reveal variants ------------------------ */
+/* Base .reveal transition lives in 07-motion.css; these add
+   direction + a clip-path wipe. Applied via data-reveal="..." */
+html.js .reveal.reveal-left { transform: translateX(-44px); }
+html.js .reveal.reveal-right { transform: translateX(44px); }
+html.js .reveal.reveal-zoom { transform: scale(0.92); }
+html.js .reveal.reveal-mask {
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+}
+html.js .reveal.reveal-left.in,
+html.js .reveal.reveal-right.in,
+html.js .reveal.reveal-zoom.in { transform: none; opacity: 1; }
+html.js .reveal.reveal-mask.in { clip-path: inset(0 0 0 0); }
+
+/* Generic hover utilities (used across pages) --------------- */
+.hover-glow { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+.hover-glow:hover {
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.35), 0 18px 50px -20px rgba(37, 99, 235, 0.55);
+}
+.hover-lift { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+.hover-lift:hover { transform: translateY(-6px); }
+.hover-line { position: relative; }
+.hover-line::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  height: 2px; width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hover-line:hover::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-3d { perspective: none; }
+  [data-depth] { transform: none !important; transition: none; }
+  [data-tilt] { transform: none !important; transition: none; }
+  .float-3d, .spin-3d { animation: none !important; }
+  .reveal.reveal-left, .reveal.reveal-right, .reveal.reveal-zoom { transform: none; }
+  .reveal.reveal-mask { clip-path: none; }
+}
+
+/* Hero 3D decorations --------------------------------------- */
+.hero-chip-3d {
+  position: absolute;
+  left: -10px; bottom: 8%;
+  padding: 10px 16px;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--accent-2, #a78bfa);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 18px 40px -24px rgba(96, 165, 250, 0.7);
+  z-index: 2;
+}
+

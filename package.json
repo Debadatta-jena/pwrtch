@@ -1,0 +1,12 @@
+{
+  "name": "powertech-static-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static corporate website for Power Tech Consultants (PTC) and Swain & Sons Power Tech Pvt. Ltd. (SSPTPL). Built from source templates; output is fully static.",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node build.mjs && node serve.mjs",
+    "serve:static": "node serve.mjs"
+  }
+}

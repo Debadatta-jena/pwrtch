@@ -1,0 +1,93 @@
+/* =============================================================
+   10-page-stories.css — per-page visual storytelling
+   ============================================================= */
+
+/* ---- Capability network (Services) ---- */
+.cap-net { position: relative; aspect-ratio: 1/1; max-width: 620px; margin: 0 auto; }
+.cap-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.cap-line { stroke: rgba(37,99,235,.28); stroke-width: 0.5; stroke-dasharray: 2.5 2; }
+.cap-center {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 86px; height: 86px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--grad); color: #fff; font-family: var(--display); font-weight: 800; font-size: .82rem;
+  letter-spacing: .06em; box-shadow: 0 0 30px rgba(37,99,235,.5);
+}
+.cap-node {
+  position: absolute; transform: translate(-50%, -50%); border: 1px solid var(--line); background: #fff;
+  color: var(--ink); font-weight: 700; font-size: .82rem; padding: 10px 14px; border-radius: 999px;
+  cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, border-color .25s, background .25s;
+}
+.cap-node:hover, .cap-node.active { transform: translate(-50%, -50%) scale(1.08); border-color: var(--blue-500); box-shadow: var(--shadow); background: var(--blue-50); }
+.cap-detail { margin-top: 34px; min-height: 170px; }
+.cap-panel { display: none; animation: fadeUp .4s ease both; }
+/* Without JS, show all capability panels instead of hiding them */
+html:not(.js) .cap-panel { display: block; }
+.cap-panel.show { display: block; }
+.cap-panel .service-company { margin-bottom: 8px; display: inline-block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ---- Client network ---- */
+.client-net { position: relative; aspect-ratio: 1/1; max-width: 600px; margin: 0 auto; }
+.cn-center {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px;
+  border-radius: 50%; display: grid; place-items: center; text-align: center; font-family: var(--display);
+  font-weight: 800; color: #fff; background: radial-gradient(circle, #2563eb, #1d4ed8); box-shadow: 0 0 30px rgba(37,99,235,.45);
+  line-height: 1.1; font-size: .9rem;
+}
+.cn-node {
+  position: absolute; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; background: #fff; border: 1px solid var(--line); font-weight: 800;
+  color: var(--blue-700); cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s, box-shadow .3s, background .3s;
+}
+.cn-node:hover { transform: translate(-50%, -50%) scale(1.25); background: var(--blue-50); box-shadow: var(--shadow); z-index: 2; }
+.client-net:hover .cn-node.dim { opacity: .25; }
+
+/* ---- Connection diagrams (About / Contact) ---- */
+.connection-wrap { position: relative; max-width: 620px; margin: 0 auto; }
+.connection-svg { width: 100%; height: auto; overflow: visible; }
+.conn-line { fill: none; stroke: url(#connGrad); stroke-width: 2.5; stroke-linecap: round;
+  stroke-dasharray: 360; stroke-dashoffset: calc(360 * (1 - var(--p, 0))); transition: stroke-dashoffset .15s linear; }
+.conn-node { fill: #2563eb; }
+.conn-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; align-items: center; }
+.conn-labels .conn-ptc, .conn-labels .conn-ssptpl { display: flex; flex-direction: column; gap: 4px; }
+.conn-labels .conn-ptc small, .conn-labels .conn-ssptpl small { color: var(--slate-2); font-size: .82rem; }
+.conn-core { grid-column: 1 / -1; text-align: center; }
+.conn-core strong { font-family: var(--display); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 1.1rem; letter-spacing: .04em; }
+.contacts-layout { grid-template-columns: 1fr auto 1fr; }
+.contacts-layout .conn-ssptpl { text-align: right; align-items: flex-end; }
+
+/* ---- Career journey ---- */
+.journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 20px; }
+.j-step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 22px; position: relative; overflow: hidden; }
+.j-step::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 4px; background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.16,1,.3,1); transition-delay: var(--d, 0s); }
+.j-step.in::before { transform: scaleX(1); }
+.j-num { font-family: var(--display); font-weight: 800; font-size: 1.4rem; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.j-step h3 { margin: 8px 0 6px; }
+.j-step p { margin: 0; color: var(--slate); font-size: .92rem; }
+
+/* ---- Service / project detail grids ---- */
+.sd-grid { display: grid; grid-template-columns: 1.7fr .9fr; gap: 32px; align-items: start; }
+.sd-main h2 { margin-top: 0; }
+.sd-aside { position: sticky; top: 96px; }
+.sd-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.svc-grid-alt { display: grid; gap: 14px; max-width: 880px; margin: 0 auto; }
+.svc-row { display: flex; gap: 18px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; transition: transform .2s, box-shadow .2s, border-color .2s; }
+.svc-row:hover { transform: translateX(6px); box-shadow: var(--shadow); border-color: var(--blue-100); }
+.svc-num { font-family: var(--display); font-weight: 800; color: #fff; background: var(--grad); width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.svc-row-body h3 { margin: 0 0 4px; }
+.svc-row-body p { margin: 0; color: var(--slate); font-size: .94rem; }
+.svc-row-body .link-arrow { margin-top: 12px; }
+
+/* ---- Flow steps (service detail) ---- */
+.flow { list-style: none; padding: 0; margin: 18px auto 26px; max-width: 460px; position: relative; }
+.flow::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(180deg, #2563eb, #f59e0b); opacity: .3; }
+.flow-step { display: flex; align-items: center; gap: 16px; padding: 12px 0; position: relative; }
+.flow-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 0 4px rgba(37,99,235,.12); flex: none; position: relative; z-index: 1; }
+.flow-label { font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+
+@media (max-width: 860px) {
+  .sd-grid { grid-template-columns: 1fr; }
+  .sd-aside { position: static; }
+  .journey { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) { .journey { grid-template-columns: 1fr; } .cap-node { font-size: .72rem; padding: 8px 10px; } }

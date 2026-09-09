@@ -1,0 +1,57 @@
+/* =============================================================
+   bg-anim.css — global canvas energy field (all pages)
+   - .bg-anim: fixed full-viewport layer (z-index:-1) behind content
+   - <canvas> inside is driven by src/js/anim/energyField.js
+   - translucent "glass" cards/sections so the anim shows through
+   ============================================================= */
+
+/* ---- Stage ---- */
+.bg-anim {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  pointer-events: none;
+}
+.bg-anim canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+}
+
+/* ---- Intensity: calmer on inner pages ---- */
+.bg-anim[data-intensity="soft"] { opacity: .55; }
+
+/* ---- Translucent glass so the animation shows THROUGH every card ---- */
+/* Any component whose class contains "-card" (service-card, project-card,
+   client-card, industry-card, contact-card, company-card, resource-card,
+   profile-card-lg, work-card, trust-card, ecosystem-card, approach-card,
+   tl-card, startup-card, and any future *-card) becomes 50% glass. */
+body[data-anim="on"] [class*="-card"] {
+  background: rgba(255, 255, 255, .5) !important;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+/* Card-like components that aren't "-card" named */
+body[data-anim="on"] .metric,
+body[data-anim="on"] .why-item,
+body[data-anim="on"] .svc-row,
+body[data-anim="on"] .svc-group,
+body[data-anim="on"] .filter-group,
+body[data-anim="on"] .client-chip,
+body[data-anim="on"] .mini,
+body[data-anim="on"] .person,
+body[data-anim="on"] .form-wrap,
+body[data-anim="on"] .j-step,
+body[data-anim="on"] .section.alt,
+body[data-anim="on"] .cap-panel {
+  background: rgba(255, 255, 255, .5) !important;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+/* inline style="background:var(--bg-soft)" used on several inner pages */
+body[data-anim="on"] .section[style*="background"] {
+  background: rgba(247, 249, 252, .5) !important;
+  backdrop-filter: blur(6px) saturate(115%);
+  -webkit-backdrop-filter: blur(6px) saturate(115%);
+}
+
+/* ---- Reduced motion: JS keeps a calm, near-static glowing core ---- */
+@media (prefers-reduced-motion: reduce) {
+  .bg-anim { opacity: .8; }
+}

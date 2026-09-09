@@ -1,0 +1,26 @@
+/* =============================================================
+   07-motion.css — motion-safe states & hover polish
+   ============================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+}
+
+/* Stagger children of a revealed container (optional hook) */
+.reveal-group .reveal { transition-delay: var(--d, 0ms); }
+
+/* Hover lift for interactive cards (non-touch) */
+@media (hover: hover) {
+  .service-card:hover, .project-card:hover, .work-card:hover,
+  .industry-card:hover, .trust-card:hover, .client-card:hover,
+  .company-card:hover, .person:hover {
+    border-color: var(--blue-200, #bfdbfe);
+  }
+}
+
+/* Smooth anchor offset under sticky header */
+:target { scroll-margin-top: 88px; }
+
+/* Focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .industry-card:focus-visible {
+  outline: 2px solid var(--blue-600); outline-offset: 2px; border-radius: 6px;
+}
